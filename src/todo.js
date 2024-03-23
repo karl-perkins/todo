@@ -1,11 +1,12 @@
-export const projects = {
-    default: { maxTodoId: 1, todos: [] },
-};
+export const todos = [];
+export const projects = ["default"];
 
-export function createTodo(id, title, description, dueDate, priority) {
-    return { id, title, description, dueDate, priority, isComplete: false };
+let maxTodoId = 1;
+
+export function createTodo(title, description, dueDate, priority, project) {
+    return { id: maxTodoId++, title, description, dueDate, priority, isComplete: false, project };
 }
 
 export function createProject(name) {
-    projects[name] = [];
+    projects.push(name);
 }
