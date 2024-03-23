@@ -7,17 +7,10 @@ createTodoForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const formData = new FormData(createTodoForm);
+    createTodo(formData);
     
-    const newTodo = Todo.createTodo(
-        formData.get("title"),
-        formData.get("description"),
-        formData.get("dueDate"),
-        formData.get("priority"),
-        formData.get("project")
-    );
-
     createTodoForm.reset();
-    Todo.todos.push(newTodo);
+
     renderTodos(Todo.todos);
 });
 
@@ -46,6 +39,18 @@ function renderTodos(todos) {
 
         todoList.appendChild(todoListItem);
     }
+}
+
+function createTodo(formData) {
+    const newTodo = Todo.createTodo(
+        formData.get("title"),
+        formData.get("description"),
+        formData.get("dueDate"),
+        formData.get("priority"),
+        formData.get("project")
+    );
+
+    Todo.todos.push(newTodo);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
