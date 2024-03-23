@@ -46,23 +46,14 @@ h6 {
 }
 
 /* Custom CSS*/
-#content {
-    width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    gap: 2rem;
+#container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     font-family: "Roboto", sans-serif;
 }
 
-form {
+#create-todo-form {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-form > button {
-    width: fit-content;
-    align-self: flex-end;
 }
 
 .form-control {

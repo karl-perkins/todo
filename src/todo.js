@@ -7,11 +7,11 @@ export function createTodo(todo) {
     const newTodo = {
         id: maxTodoId++,
         title: todo.title,
-        description: todo.description,
         dueDate: todo.dueDate,
         priority: todo.priority,
         isComplete: false,
-        project: todo.project,
+        project: "default",
+        notes: "",
     };
     todos.push(newTodo);
 }
@@ -21,9 +21,11 @@ export function updateTodo(id, update) {
 
     if (todoIndex !== -1) {
         todos[todoIndex].title = update.title;
-        todos[todoIndex].description = update.description;
+        todos[todoIndex].notes = update.notes;
         todos[todoIndex].dueDate = update.dueDate;
         todos[todoIndex].priority = update.priority;
+        todos[todoIndex].project = update.project;
+        todos[todoIndex].notes = update.notes;
     }
 }
 

@@ -8,22 +8,33 @@ createTodoForm.addEventListener("submit", (e) => {
 
     const formData = new FormData(createTodoForm);
 
-    const todoIndex = formData.get("id");
     const newTodo = {
         title: formData.get("title"),
-        description: formData.get("description"),
+        dueDate: formData.get("dueDate"),
+        priority: formData.get("priority"),
+    };
+
+    Todo.createTodo(newTodo);
+    createTodoForm.reset();
+    renderTodos(Todo.todos);
+});
+
+const editTodoForm = document.querySelector("#edit-todo-form");
+editTodoForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(editTodoForm);
+
+    const todoIndex = formData.get("id");
+    const updateTodo = {
+        title: formData.get("title"),
         dueDate: formData.get("dueDate"),
         priority: formData.get("priority"),
         project: formData.get("project"),
+        notes: formData.get("notes"),
     };
 
-    if (todoIndex === "") {
-        Todo.createTodo(newTodo);
-    } else {
-        Todo.updateTodo(todoIndex, newTodo);
-    }
-
-    createTodoForm.reset();
+    Todo.updateTodo(todoIndex, updateTodo);
 
     renderTodos(Todo.todos);
 });
@@ -59,17 +70,16 @@ function renderTodos(todos) {
 
 function editTodo(id) {
     const update = Todo.todos.find((todo) => todo.id === id);
-
-    document.querySelector("#id").value = update.id;
-    document.querySelector("#title").value = update.title;
-    document.querySelector("#description").value = update.description;
-    document.querySelector("#due-date").value = update.dueDate;
-    document.querySelector("#priority").value = update.priority;
-    document.querySelector("#project").value = update.project;
+    document.querySelector("#edit-id").value = update.id;
+    document.querySelector("#edit-title").value = update.title;
+    document.querySelector("#edit-due-date").value = update.dueDate;
+    document.querySelector("#edit-priority").value = update.priority;
+    document.querySelector("#edit-project").value = update.project;
+    document.querySelector("#edit-notes").value = update.notes;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const projectOptions = document.querySelector("#project");
+    const projectOptions = document.querySelector("#edit-project");
 
     for (const project of Todo.projects) {
         const projectOption = document.createElement("option");
