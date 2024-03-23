@@ -7,9 +7,7 @@ createTodoForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const formData = new FormData(createTodoForm);
-
-    const project = "default";
-
+    
     const newTodo = Todo.createTodo(
         formData.get("title"),
         formData.get("description"),
