@@ -19,28 +19,34 @@ createTodoForm.addEventListener("submit", (e) => {
         formData.get("priority")
     );
     
-    Todo.projects[project].todos.push(newTodo);
-    console.log(Todo.projects[project].todos);
-
     createTodoForm.reset();
-
-    const todoList = document.querySelector('#todo-list');
-
-    const todoListItem = document.createElement('div');
-    todoListItem.classList.add('todo-list-item');
-
-    const isComplete = document.createElement('input');
-    isComplete.type = 'checkbox';
-
-    const title = document.createElement('div');
-    title.textContent = formData.get('title');
-
-    const dueDate = document.createElement('div');
-    dueDate.textContent = formData.get('dueDate');
-
-    todoListItem.appendChild(isComplete);
-    todoListItem.appendChild(title);
-    todoListItem.appendChild(dueDate);
-    todoList.appendChild(todoListItem);
+    Todo.projects[project].todos.push(newTodo);
+    renderTodos(Todo.projects[project].todos);
 });
 
+function renderTodos(todos) {
+    const todoList = document.querySelector('#todo-list');
+
+    for (const todo of todos) {
+        const todoListItem = document.createElement('div');
+        todoListItem.classList.add('todo-list-item');
+    
+        const isComplete = document.createElement('input');
+        isComplete.type = 'checkbox';
+        todoListItem.appendChild(isComplete);
+    
+        const title = document.createElement('div');
+        title.textContent = todo.title;
+        todoListItem.appendChild(title);
+    
+        const dueDate = document.createElement('div');
+        dueDate.textContent = todo.dueDate;
+        todoListItem.appendChild(dueDate);
+    
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        todoListItem.appendChild(editButton);
+    
+        todoList.appendChild(todoListItem);
+    }
+}
