@@ -1,9 +1,9 @@
 export const projects = {
-    default: [],
+    default: { maxTodoId: 1, todos: [] },
 };
 
-export function createTodo(title, description, dueDate, priority) {
-    return { title, description, dueDate, priority, isComplete: false };
+export function createTodo(id, title, description, dueDate, priority) {
+    return { id, title, description, dueDate, priority, isComplete: false };
 }
 
 export function createProject(name) {

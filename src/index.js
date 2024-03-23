@@ -7,15 +7,20 @@ createTodoForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const formData = new FormData(createTodoForm);
+
+    const project = 'default';
+
+    const todoId = Todo.projects[project].maxTodoId++;
     const newTodo = Todo.createTodo(
+        todoId,
         formData.get("title"),
         formData.get("description"),
         formData.get("dueDate"),
         formData.get("priority")
     );
     
-    const project = 'default';
-    Todo.projects[project].push(newTodo);
+    Todo.projects[project].todos.push(newTodo);
+    console.log(Todo.projects[project].todos);
 
     createTodoForm.reset();
 
@@ -38,3 +43,4 @@ createTodoForm.addEventListener("submit", (e) => {
     todoListItem.appendChild(dueDate);
     todoList.appendChild(todoListItem);
 });
+
