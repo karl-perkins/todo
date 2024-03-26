@@ -48,11 +48,12 @@ h6 {
 /* Custom CSS*/
 #container {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 3fr 1fr;
     font-family: "Roboto", sans-serif;
 }
 
-#create-todo-form {
+#create-todo-form, 
+#filter-todos-form {
     display: flex;
 }
 

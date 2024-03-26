@@ -1,5 +1,5 @@
-export let todos = [];
-export const projects = ["default"];
+let todos = [];
+export const projects = ["default", "flax"];
 
 let maxTodoId = 1;
 
@@ -35,6 +35,20 @@ export function deleteTodo(id) {
         const newTodos = todos.toSpliced(todoIndex, 1);
         todos = newTodos;
     }
+}
+
+export function getTodos() {
+    return todos;
+}
+
+export function getTodosByProject(project) {
+    const filteredTodos = todos.filter((todo) => todo.project === project);
+    return filteredTodos;
+}
+
+export function getTodo(id) {
+    const todo = todos.find((todo) => todo.id === id);
+    return todo;
 }
 
 export function createProject(name) {

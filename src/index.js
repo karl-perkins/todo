@@ -16,7 +16,7 @@ createTodoForm.addEventListener("submit", (e) => {
 
     Todo.createTodo(newTodo);
     createTodoForm.reset();
-    renderTodos(Todo.todos);
+    renderTodos();
 });
 
 const editTodoForm = document.querySelector("#edit-todo-form");
@@ -39,8 +39,8 @@ editTodoForm.addEventListener("submit", (e) => {
     renderTodos();
 });
 
-function renderTodos() {
-    const todos = Todo.todos;
+function renderTodos(project = 'default') {
+    const todos = Todo.getTodosByProject(project);
     const todoList = document.querySelector("#todo-list");
     todoList.innerHTML = "";
 
@@ -75,7 +75,7 @@ function renderTodos() {
 }
 
 function editTodo(id) {
-    const update = Todo.todos.find((todo) => todo.id === id);
+    const update = Todo.getTodo(id);
     document.querySelector("#edit-id").value = update.id;
     document.querySelector("#edit-title").value = update.title;
     document.querySelector("#edit-due-date").value = update.dueDate;
@@ -90,13 +90,33 @@ function deleteTodo(id) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const projectOptions = document.querySelector("#edit-project");
+    populateProjectDropdown();
+});
+
+
+function populateProjectDropdown() {
+    const editProjectOptions = document.querySelector("#edit-project");
+    const filterProjectOptions = document.querySelector("#filter-project");
+
+    const fragment = new DocumentFragment();
 
     for (const project of Todo.projects) {
-        const projectOption = document.createElement("option");
-        projectOption.value = project;
-        projectOption.textContent = project;
+        const option = document.createElement("option");
+        option.value = project;
+        option.textContent = project;
 
-        projectOptions.appendChild(projectOption);
-    }
+        fragment.appendChild(option);
+    } 
+
+    editProjectOptions.appendChild(fragment.cloneNode(true));
+    filterProjectOptions.appendChild(fragment);
+}
+
+const projectFilterForm = document.querySelector('#filter-todos-form');
+projectFilterForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(projectFilterForm);
+    const project = formData.get("project");
+    renderTodos(project)
 });
