@@ -25,7 +25,7 @@ editTodoForm.addEventListener("submit", (e) => {
 
     const formData = new FormData(editTodoForm);
 
-    const todoIndex = formData.get("id");
+    const updateTodoId = formData.get("id");
     const updateTodo = {
         title: formData.get("title"),
         dueDate: formData.get("dueDate"),
@@ -34,7 +34,7 @@ editTodoForm.addEventListener("submit", (e) => {
         notes: formData.get("notes"),
     };
 
-    Todo.updateTodo(todoIndex, updateTodo);
+    Todo.updateTodo(updateTodoId, updateTodo);
 
     renderTodos(Todo.todos);
 });
