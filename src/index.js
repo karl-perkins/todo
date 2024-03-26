@@ -36,10 +36,11 @@ editTodoForm.addEventListener("submit", (e) => {
 
     Todo.updateTodo(updateTodoId, updateTodo);
 
-    renderTodos(Todo.todos);
+    renderTodos();
 });
 
-function renderTodos(todos) {
+function renderTodos() {
+    const todos = Todo.todos;
     const todoList = document.querySelector("#todo-list");
     todoList.innerHTML = "";
 
@@ -85,7 +86,7 @@ function editTodo(id) {
 
 function deleteTodo(id) {
     Todo.deleteTodo(id);
-    renderTodos(Todo.todos);
+    renderTodos();
 }
 
 document.addEventListener("DOMContentLoaded", function () {
