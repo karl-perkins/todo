@@ -1,44 +1,6 @@
 import "./style.css";
 import * as Todo from "./todo.js";
 
-const createTodoForm = document.querySelector("#create-todo-form");
-
-createTodoForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(createTodoForm);
-
-    const newTodo = {
-        title: formData.get("title"),
-        dueDate: formData.get("dueDate"),
-        priority: formData.get("priority"),
-    };
-
-    Todo.createTodo(newTodo);
-    createTodoForm.reset();
-    renderTodos();
-});
-
-const editTodoForm = document.querySelector("#edit-todo-form");
-editTodoForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(editTodoForm);
-
-    const updateTodoId = formData.get("id");
-    const updateTodo = {
-        title: formData.get("title"),
-        dueDate: formData.get("dueDate"),
-        priority: formData.get("priority"),
-        project: formData.get("project"),
-        notes: formData.get("notes"),
-    };
-
-    Todo.updateTodo(updateTodoId, updateTodo);
-
-    renderTodos();
-});
-
 function renderTodos(project = 'default') {
     const todos = Todo.getTodosByProject(project);
     const todoList = document.querySelector("#todo-list");
@@ -89,36 +51,24 @@ function deleteTodo(id) {
     renderTodos();
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    populateProjectList();
-    populateProjectDropdown();
-});
-
-
 function populateProjectDropdown() {
     const editProjectOptions = document.querySelector("#edit-project");
 
     editProjectOptions.innerHTML = '';
-
-    const fragment = new DocumentFragment();
 
     for (const project of Todo.projects) {
         const option = document.createElement("option");
         option.value = project;
         option.textContent = project;
 
-        fragment.appendChild(option);
+        editProjectOptions.appendChild(option);
     } 
-
-    editProjectOptions.appendChild(fragment.cloneNode(true));
 }
 
 function populateProjectList() {
     const projectList = document.querySelector("#project-list");
 
     projectList.innerHTML = '';
-
-    const fragment = new DocumentFragment();
 
     for (const project of Todo.projects) {
         const projectListItem = document.createElement("div");
@@ -133,23 +83,65 @@ function populateProjectList() {
         viewButton.onclick = renderTodos.bind(this, project);
         projectListItem.appendChild(viewButton);
 
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        // deleteButton.onclick = deleteTodo.bind(this, todo.id);
-        projectListItem.appendChild(deleteButton);
+        // const deleteButton = document.createElement("button");
+        // deleteButton.textContent = "Delete";
+        // // deleteButton.onclick = deleteTodo.bind(this, todo.id);
+        // projectListItem.appendChild(deleteButton);
+
         projectList.appendChild(projectListItem);
     } 
 }
 
-const newProjectForm = document.querySelector('#new-project-form');
-newProjectForm.addEventListener('submit', (e) => {
+document.addEventListener("DOMContentLoaded", function () {
+    populateProjectList();
+    populateProjectDropdown();
+});
+
+document.querySelector('#new-project-form').addEventListener('submit', (e) => {
     e.preventDefault();
 
     const formData = new FormData(newProjectForm);
     const project = formData.get("project");
 
     Todo.createProject(project);
+
     populateProjectList();
     populateProjectDropdown();
     newProjectForm.reset();
+});
+
+document.querySelector("#create-todo-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    const newTodo = {
+        title: formData.get("title"),
+        dueDate: formData.get("dueDate"),
+        priority: formData.get("priority"),
+    };
+
+    Todo.createTodo(newTodo);
+    
+    e.target.reset();
+    renderTodos();
+});
+
+document.querySelector("#edit-todo-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    const updateTodoId = formData.get("id");
+    const updateTodo = {
+        title: formData.get("title"),
+        dueDate: formData.get("dueDate"),
+        priority: formData.get("priority"),
+        project: formData.get("project"),
+        notes: formData.get("notes"),
+    };
+
+    Todo.updateTodo(updateTodoId, updateTodo);
+
+    renderTodos();
 });
