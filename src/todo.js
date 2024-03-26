@@ -1,4 +1,4 @@
-export const todos = [];
+export let todos = [];
 export const projects = ["default"];
 
 let maxTodoId = 1;
@@ -26,6 +26,14 @@ export function updateTodo(id, update) {
         todos[todoIndex].priority = update.priority;
         todos[todoIndex].project = update.project;
         todos[todoIndex].notes = update.notes;
+    }
+}
+
+export function deleteTodo(id) {
+    const todoIndex = todos.findIndex((todo) => todo.id === id);
+    if (todoIndex !== -1) {
+        const newTodos = todos.toSpliced(todoIndex, 1);
+        todos = newTodos;
     }
 }
 

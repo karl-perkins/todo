@@ -64,6 +64,11 @@ function renderTodos(todos) {
         editButton.onclick = editTodo.bind(this, todo.id);
         todoListItem.appendChild(editButton);
 
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.onclick = deleteTodo.bind(this, todo.id);
+        todoListItem.appendChild(deleteButton);
+
         todoList.appendChild(todoListItem);
     }
 }
@@ -76,6 +81,11 @@ function editTodo(id) {
     document.querySelector("#edit-priority").value = update.priority;
     document.querySelector("#edit-project").value = update.project;
     document.querySelector("#edit-notes").value = update.notes;
+}
+
+function deleteTodo(id) {
+    Todo.deleteTodo(id);
+    renderTodos(Todo.todos);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
