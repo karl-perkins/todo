@@ -90,16 +90,15 @@ function deleteTodo(id) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    populateProjectList();
     populateProjectDropdown();
 });
 
 
 function populateProjectDropdown() {
     const editProjectOptions = document.querySelector("#edit-project");
-    const filterProjectOptions = document.querySelector("#filter-project");
 
     editProjectOptions.innerHTML = '';
-    filterProjectOptions.innerHTML = '';
 
     const fragment = new DocumentFragment();
 
@@ -112,17 +111,35 @@ function populateProjectDropdown() {
     } 
 
     editProjectOptions.appendChild(fragment.cloneNode(true));
-    filterProjectOptions.appendChild(fragment);
 }
 
-const projectFilterForm = document.querySelector('#filter-todos-form');
-projectFilterForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+function populateProjectList() {
+    const projectList = document.querySelector("#project-list");
 
-    const formData = new FormData(projectFilterForm);
-    const project = formData.get("project");
-    renderTodos(project)
-});
+    projectList.innerHTML = '';
+
+    const fragment = new DocumentFragment();
+
+    for (const project of Todo.projects) {
+        const projectListItem = document.createElement("div");
+        projectListItem.classList.add("project-list-item");
+
+        const name = document.createElement("div");
+        name.textContent = project;
+        projectListItem.appendChild(name);
+
+        const viewButton = document.createElement("button");
+        viewButton.textContent = "View";
+        viewButton.onclick = renderTodos.bind(this, project);
+        projectListItem.appendChild(viewButton);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        // deleteButton.onclick = deleteTodo.bind(this, todo.id);
+        projectListItem.appendChild(deleteButton);
+        projectList.appendChild(projectListItem);
+    } 
+}
 
 const newProjectForm = document.querySelector('#new-project-form');
 newProjectForm.addEventListener('submit', (e) => {
@@ -132,6 +149,7 @@ newProjectForm.addEventListener('submit', (e) => {
     const project = formData.get("project");
 
     Todo.createProject(project);
+    populateProjectList();
     populateProjectDropdown();
     newProjectForm.reset();
 });

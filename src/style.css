@@ -47,23 +47,33 @@ h6 {
 
 /* Custom CSS*/
 #container {
+    width: 1280px;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
     font-family: "Roboto", sans-serif;
+    gap: 2rem;
 }
 
 #create-todo-form, 
 #filter-todos-form,
 #new-project-form {
     display: flex;
+    gap: 1rem;
 }
 
-#edit-todo-form > .form-control {
+.form-control {
     display: flex;
     flex-direction: column;
 }
 
-.todo-list-item {
+button {
+    height: fit-content;
+    align-self: flex-end;
+}
+
+.todo-list-item,
+.project-list-item {
     display: flex;
     gap: 1rem;
     align-items: center;
