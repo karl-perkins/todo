@@ -53,7 +53,8 @@ h6 {
 }
 
 #create-todo-form, 
-#filter-todos-form {
+#filter-todos-form,
+#new-project-form {
     display: flex;
 }
 

@@ -52,5 +52,7 @@ export function getTodo(id) {
 }
 
 export function createProject(name) {
-    projects.push(name);
+    if (projects.includes(name) === false) {
+        projects.push(name);
+    }
 }

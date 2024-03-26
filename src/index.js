@@ -98,6 +98,9 @@ function populateProjectDropdown() {
     const editProjectOptions = document.querySelector("#edit-project");
     const filterProjectOptions = document.querySelector("#filter-project");
 
+    editProjectOptions.innerHTML = '';
+    filterProjectOptions.innerHTML = '';
+
     const fragment = new DocumentFragment();
 
     for (const project of Todo.projects) {
@@ -119,4 +122,16 @@ projectFilterForm.addEventListener('submit', (e) => {
     const formData = new FormData(projectFilterForm);
     const project = formData.get("project");
     renderTodos(project)
+});
+
+const newProjectForm = document.querySelector('#new-project-form');
+newProjectForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(newProjectForm);
+    const project = formData.get("project");
+
+    Todo.createProject(project);
+    populateProjectDropdown();
+    newProjectForm.reset();
 });
