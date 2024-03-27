@@ -39,6 +39,8 @@ function renderTodos(project = "default") {
 function editTodo(id) {
     const updateTodo = Todo.getTodo(id);
 
+    const priorityOptions = ["Low", "Medium", "High"];
+
     const editForm = `<form id="edit-todo-form">
         <div class="form-control hidden">
             <label for="edit-id">Id</label>
@@ -52,12 +54,13 @@ function editTodo(id) {
         </div>
         <div class="form-control">
             <label for="edit-project">Project</label>
-            <select name="project" id="edit-project" value=${
-                updateTodo.project
-            }>
+            <select name="project" id="edit-project">
                 ${Todo.projects.reduce(
                     (html, project) =>
-                        (html += `<option value="${project}">${project}</option>`),
+                        (html +=
+                            project === updateTodo.project
+                                ? `<option value="${project}" selected>${project}</option>`
+                                : `<option value="${project}">${project}</option>`),
                     ""
                 )}
             </select>
@@ -70,15 +73,15 @@ function editTodo(id) {
         </div>
         <div class="form-control">
             <label for="edit-priority">Priority</label>
-            <select name="priority" id="edit-priority" value=${
-                updateTodo.priority
-            }>
-                <option value="">
-                    --Please choose an option--
-                </option>
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
+            <select name="priority" id="edit-priority">
+                ${priorityOptions.reduce(
+                    (html, priority) =>
+                        (html +=
+                            priority === updateTodo.priority
+                                ? `<option value="${priority}" selected>${priority}</option>`
+                                : `<option value="${priority}">${priority}</option>`),
+                    ""
+                )}
             </select>
         </div>
         <div class="form-control full-row">
