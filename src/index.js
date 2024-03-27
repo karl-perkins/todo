@@ -124,7 +124,7 @@ function deleteTodo(id) {
     renderTodos();
 }
 
-function populateProjectList() {
+function renderProjects() {
     const projectList = document.querySelector("#project-list");
 
     projectList.innerHTML = "";
@@ -146,8 +146,7 @@ function populateProjectList() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    populateProjectList();
-    // populateProjectDropdown();
+    renderProjects();
 });
 
 document.querySelector("#new-project-form").addEventListener("submit", (e) => {
@@ -158,8 +157,7 @@ document.querySelector("#new-project-form").addEventListener("submit", (e) => {
 
     Todo.createProject(project);
 
-    populateProjectList();
-    // populateProjectDropdown();
+    renderProjects();
     e.target.reset();
 });
 
