@@ -74,19 +74,10 @@ function populateProjectList() {
         const projectListItem = document.createElement("div");
         projectListItem.classList.add("project-list-item");
 
-        const name = document.createElement("div");
-        name.textContent = project;
-        projectListItem.appendChild(name);
-
         const viewButton = document.createElement("button");
-        viewButton.textContent = "View";
+        viewButton.textContent = project;
         viewButton.onclick = renderTodos.bind(this, project);
         projectListItem.appendChild(viewButton);
-
-        // const deleteButton = document.createElement("button");
-        // deleteButton.textContent = "Delete";
-        // // deleteButton.onclick = deleteTodo.bind(this, todo.id);
-        // projectListItem.appendChild(deleteButton);
 
         projectList.appendChild(projectListItem);
     } 
