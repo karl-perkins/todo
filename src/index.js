@@ -61,9 +61,9 @@ function editTodo(id) {
         </div>
         <div class="form-control">
             <label for="edit-title">Title</label>
-            <input type="text" name="title" id="edit-title" value=${
+            <input type="text" name="title" id="edit-title" value="${
                 updateTodo.title
-            } />
+            }" />
         </div>
         <div class="form-control">
             <label for="edit-project">Project</label>
