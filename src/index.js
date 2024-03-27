@@ -1,7 +1,7 @@
 import "./style.css";
 import * as Todo from "./todo.js";
 
-function renderTodos(project = 'default') {
+function renderTodos(project = "default") {
     const todos = Todo.getTodosByProject(project);
     const todoList = document.querySelector("#todo-list");
     todoList.innerHTML = "";
@@ -37,13 +37,81 @@ function renderTodos(project = 'default') {
 }
 
 function editTodo(id) {
-    const update = Todo.getTodo(id);
-    document.querySelector("#edit-id").value = update.id;
-    document.querySelector("#edit-title").value = update.title;
-    document.querySelector("#edit-due-date").value = update.dueDate;
-    document.querySelector("#edit-priority").value = update.priority;
-    document.querySelector("#edit-project").value = update.project;
-    document.querySelector("#edit-notes").value = update.notes;
+    const updateTodo = Todo.getTodo(id);
+
+    const editForm = `<form id="edit-todo-form">
+        <div class="form-control hidden">
+            <label for="edit-id">Id</label>
+            <input type="text" name="id" id="edit-id" value=${updateTodo.id} />
+        </div>
+        <div class="form-control">
+            <label for="edit-title">Title</label>
+            <input type="text" name="title" id="edit-title" value=${
+                updateTodo.title
+            } />
+        </div>
+        <div class="form-control">
+            <label for="edit-project">Project</label>
+            <select name="project" id="edit-project" value=${
+                updateTodo.project
+            }>
+                ${Todo.projects.reduce(
+                    (html, project) =>
+                        (html += `<option value="${project}">${project}</option>`),
+                    ""
+                )}
+            </select>
+        </div>
+        <div class="form-control">
+            <label for="edit-due-date">Due Date</label>
+            <input type="date" name="dueDate" id="edit-due-date" value=${
+                updateTodo.dueDate
+            } />
+        </div>
+        <div class="form-control">
+            <label for="edit-priority">Priority</label>
+            <select name="priority" id="edit-priority" value=${
+                updateTodo.priority
+            }>
+                <option value="">
+                    --Please choose an option--
+                </option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+        </div>
+        <div class="form-control full-row">
+            <label for="edit-notes">Notes</label>
+            <textarea name="notes" id="edit-notes">${
+                updateTodo.notes
+            }</textarea>
+        </div>
+        <button type="submit">Update</button>
+    </form>`;
+
+    document.querySelector("#todo-list").innerHTML = editForm;
+
+    document
+        .querySelector("#edit-todo-form")
+        .addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+
+            const updateTodoId = formData.get("id");
+            const updateTodo = {
+                title: formData.get("title"),
+                dueDate: formData.get("dueDate"),
+                priority: formData.get("priority"),
+                project: formData.get("project"),
+                notes: formData.get("notes"),
+            };
+
+            Todo.updateTodo(updateTodoId, updateTodo);
+
+            renderTodos();
+        });
 }
 
 function deleteTodo(id) {
@@ -51,24 +119,10 @@ function deleteTodo(id) {
     renderTodos();
 }
 
-function populateProjectDropdown() {
-    const editProjectOptions = document.querySelector("#edit-project");
-
-    editProjectOptions.innerHTML = '';
-
-    for (const project of Todo.projects) {
-        const option = document.createElement("option");
-        option.value = project;
-        option.textContent = project;
-
-        editProjectOptions.appendChild(option);
-    } 
-}
-
 function populateProjectList() {
     const projectList = document.querySelector("#project-list");
 
-    projectList.innerHTML = '';
+    projectList.innerHTML = "";
 
     for (const project of Todo.projects) {
         const projectListItem = document.createElement("div");
@@ -80,25 +134,25 @@ function populateProjectList() {
         projectListItem.appendChild(viewButton);
 
         projectList.appendChild(projectListItem);
-    } 
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     populateProjectList();
-    populateProjectDropdown();
+    // populateProjectDropdown();
 });
 
-document.querySelector('#new-project-form').addEventListener('submit', (e) => {
+document.querySelector("#new-project-form").addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const formData = new FormData(newProjectForm);
+    const formData = new FormData(e.target);
     const project = formData.get("project");
 
     Todo.createProject(project);
 
     populateProjectList();
-    populateProjectDropdown();
-    newProjectForm.reset();
+    // populateProjectDropdown();
+    e.target.reset();
 });
 
 document.querySelector("#create-todo-form").addEventListener("submit", (e) => {
@@ -113,26 +167,7 @@ document.querySelector("#create-todo-form").addEventListener("submit", (e) => {
     };
 
     Todo.createTodo(newTodo);
-    
+
     e.target.reset();
-    renderTodos();
-});
-
-document.querySelector("#edit-todo-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-
-    const updateTodoId = formData.get("id");
-    const updateTodo = {
-        title: formData.get("title"),
-        dueDate: formData.get("dueDate"),
-        priority: formData.get("priority"),
-        project: formData.get("project"),
-        notes: formData.get("notes"),
-    };
-
-    Todo.updateTodo(updateTodoId, updateTodo);
-
     renderTodos();
 });

@@ -11,68 +11,27 @@
     </head>
     <body>
         <div id="container">
-            <div>
-                <form id="new-project-form">
-                    <div class="form-control">
-                        <label for="new-project">Project</label>
-                        <input type="text" name="project" id="new-project">
-                    </div>
-                    <button type="submit">Add</button>
-                </form>
-                <div id="project-list"></div>
-            </div>
 
-
-            <main>
-                <div id="test">
-                    <form id="create-todo-form">
-                        <div class="form-control">
-                            <label for="title">Title</label>
-                            <input type="text" name="title" id="title" />
-                        </div>
-                        <button type="submit">Add</button>
-                    </form>
-    
+            <form id="new-project-form">
+                <div class="form-control">
+                    <label for="new-project">Project</label>
+                    <input type="text" name="project" id="new-project" />
                 </div>
-                <div id="todo-list"></div>
-            </main>
+                <button type="submit">Add</button>
+            </form>
 
-            <aside>
-                <form id="edit-todo-form">
-                    <div class="form-control hidden">
-                        <label for="edit-id">Id</label>
-                        <input type="text" name="id" id="edit-id" />
-                    </div>
-                    <div class="form-control">
-                        <label for="edit-title">Title</label>
-                        <input type="text" name="title" id="edit-title" />
-                    </div>
-                    <div class="form-control">
-                        <label for="edit-due-date">Due Date</label>
-                        <input type="date" name="dueDate" id="edit-due-date" />
-                    </div>
-                    <div class="form-control">
-                        <label for="edit-priority">Priority</label>
-                        <select name="priority" id="edit-priority">
-                            <option value="">
-                                --Please choose an option--
-                            </option>
-                            <option value="high">High</option>
-                            <option value="medium">Medium</option>
-                            <option value="low">Low</option>
-                        </select>
-                    </div>
-                    <div class="form-control">
-                        <label for="edit-project">Project</label>
-                        <select name="project" id="edit-project"></select>
-                    </div>
-                    <div class="form-control">
-                        <label for="edit-notes">Notes</label>
-                        <textarea name="notes" id="edit-notes"></textarea>
-                    </div>
-                    <button type="submit">Update</button>
-                </form>
-            </aside>
+            <div id="project-list"></div>
+
+            <form id="create-todo-form">
+                <div class="form-control">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title" />
+                </div>
+                <button type="submit">Add</button>
+            </form>
+
+            <div id="todo-list"></div>
+            
         </div>
     </body>
 </html>

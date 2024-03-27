@@ -47,12 +47,9 @@ h6 {
 
 /* Custom CSS*/
 #container {
-    width: 1280px;
+    width: 900px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
     font-family: "Roboto", sans-serif;
-    gap: 2rem;
 }
 
 #create-todo-form, 
@@ -81,4 +78,14 @@ button {
 
 .hidden {
     display: none;
+}
+
+#edit-todo-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+
+.full-row {
+    grid-column: span 2;
 }
