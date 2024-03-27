@@ -4,33 +4,31 @@ import * as Todo from "./todo.js";
 let selectedProject = 'default';
 
 function renderTodo(todo) {
-    const todoListItem = document.createElement("div");
-    todoListItem.id = `todo-${todo.id}`
-    todoListItem.classList.add("todo-list-item");
+    const fragment = new DocumentFragment();
 
     const isComplete = document.createElement("input");
     isComplete.type = "checkbox";
-    todoListItem.appendChild(isComplete);
+    fragment.appendChild(isComplete);
 
     const title = document.createElement("div");
     title.textContent = todo.title;
-    todoListItem.appendChild(title);
+    fragment.appendChild(title);
 
     const dueDate = document.createElement("div");
     dueDate.textContent = todo.dueDate;
-    todoListItem.appendChild(dueDate);
+    fragment.appendChild(dueDate);
 
     const editButton = document.createElement("button");
     editButton.textContent = "Edit";
     editButton.onclick = editTodo.bind(this, todo.id);
-    todoListItem.appendChild(editButton);
+    fragment.appendChild(editButton);
 
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.onclick = deleteTodo.bind(this, todo.id);
-    todoListItem.appendChild(deleteButton);
+    fragment.appendChild(deleteButton);
 
-    return todoListItem;
+    return fragment;
 }
 
 function renderTodos() {
@@ -39,7 +37,13 @@ function renderTodos() {
     todoList.innerHTML = "";
 
     for (const todo of todos) {
-        const todoListItem = renderTodo(todo);
+        const todoListItem = document.createElement("div");
+        todoListItem.id = `todo-${todo.id}`
+        todoListItem.classList.add("todo-list-item");
+
+        const fragment = renderTodo(todo);
+        todoListItem.appendChild(fragment);
+
         todoList.appendChild(todoListItem);
     }
 }
@@ -50,7 +54,7 @@ function editTodo(id) {
 
     const priorityOptions = ["Low", "Medium", "High"];
 
-    const editForm = `<form id="edit-todo-form">
+    const editForm = `<form class="edit-todo-form">
         <div class="form-control hidden">
             <label for="edit-id">Id</label>
             <input type="text" name="id" id="edit-id" value=${updateTodo.id} />
@@ -105,8 +109,8 @@ function editTodo(id) {
 
     todoElement.innerHTML = editForm;
 
-    document
-        .querySelector("#edit-todo-form")
+    todoElement
+        .querySelector(".edit-todo-form")
         .addEventListener("submit", (e) => {
             e.preventDefault();
 
@@ -121,13 +125,15 @@ function editTodo(id) {
                 notes: formData.get("notes"),
             };
 
-            Todo.updateTodo(updateTodoId, updateTodo);
+            const updatedTodo = Todo.updateTodo(updateTodoId, updateTodo);
 
-            renderTodos();
+            todoElement.innerHTML = '';
+            todoElement.appendChild(renderTodo(updatedTodo));
         });
 
-    document.querySelector('.cancel-btn').addEventListener('click', (e) => {
-        renderTodos();
+        todoElement.querySelector('.cancel-btn').addEventListener('click', (e) => {
+        todoElement.innerHTML = '';
+        todoElement.appendChild(renderTodo(updateTodo));
     });
 
 }

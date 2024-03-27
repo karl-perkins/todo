@@ -27,6 +27,8 @@ export function updateTodo(id, update) {
         todos[todoIndex].project = update.project;
         todos[todoIndex].notes = update.notes;
     }
+
+    return todos[todoIndex];
 }
 
 export function deleteTodo(id) {
