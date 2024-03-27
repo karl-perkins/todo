@@ -3,38 +3,43 @@ import * as Todo from "./todo.js";
 
 let selectedProject = 'default';
 
+function renderTodo(todo) {
+    const todoListItem = document.createElement("div");
+    todoListItem.id = `todo-${todo.id}`
+    todoListItem.classList.add("todo-list-item");
+
+    const isComplete = document.createElement("input");
+    isComplete.type = "checkbox";
+    todoListItem.appendChild(isComplete);
+
+    const title = document.createElement("div");
+    title.textContent = todo.title;
+    todoListItem.appendChild(title);
+
+    const dueDate = document.createElement("div");
+    dueDate.textContent = todo.dueDate;
+    todoListItem.appendChild(dueDate);
+
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.onclick = editTodo.bind(this, todo.id);
+    todoListItem.appendChild(editButton);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.onclick = deleteTodo.bind(this, todo.id);
+    todoListItem.appendChild(deleteButton);
+
+    return todoListItem;
+}
+
 function renderTodos() {
     const todos = Todo.getTodosByProject(selectedProject);
     const todoList = document.querySelector("#todo-list");
     todoList.innerHTML = "";
 
     for (const todo of todos) {
-        const todoListItem = document.createElement("div");
-        todoListItem.id = `todo-${todo.id}`
-        todoListItem.classList.add("todo-list-item");
-
-        const isComplete = document.createElement("input");
-        isComplete.type = "checkbox";
-        todoListItem.appendChild(isComplete);
-
-        const title = document.createElement("div");
-        title.textContent = todo.title;
-        todoListItem.appendChild(title);
-
-        const dueDate = document.createElement("div");
-        dueDate.textContent = todo.dueDate;
-        todoListItem.appendChild(dueDate);
-
-        const editButton = document.createElement("button");
-        editButton.textContent = "Edit";
-        editButton.onclick = editTodo.bind(this, todo.id);
-        todoListItem.appendChild(editButton);
-
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        deleteButton.onclick = deleteTodo.bind(this, todo.id);
-        todoListItem.appendChild(deleteButton);
-
+        const todoListItem = renderTodo(todo);
         todoList.appendChild(todoListItem);
     }
 }
