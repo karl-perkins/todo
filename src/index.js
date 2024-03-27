@@ -10,6 +10,7 @@ function renderTodos() {
 
     for (const todo of todos) {
         const todoListItem = document.createElement("div");
+        todoListItem.id = `todo-${todo.id}`
         todoListItem.classList.add("todo-list-item");
 
         const isComplete = document.createElement("input");
@@ -39,6 +40,7 @@ function renderTodos() {
 }
 
 function editTodo(id) {
+    const todoElement = document.querySelector(`#todo-${id}`)
     const updateTodo = Todo.getTodo(id);
 
     const priorityOptions = ["Low", "Medium", "High"];
@@ -92,10 +94,11 @@ function editTodo(id) {
                 updateTodo.notes
             }</textarea>
         </div>
-        <button type="submit">Update</button>
+        <button type="button" class="cancel-btn">Cancel</button>
+        <button type="submit">Save</button>
     </form>`;
 
-    document.querySelector("#todo-list").innerHTML = editForm;
+    todoElement.innerHTML = editForm;
 
     document
         .querySelector("#edit-todo-form")
@@ -117,6 +120,11 @@ function editTodo(id) {
 
             renderTodos();
         });
+
+    document.querySelector('.cancel-btn').addEventListener('click', (e) => {
+        renderTodos();
+    });
+
 }
 
 function deleteTodo(id) {
