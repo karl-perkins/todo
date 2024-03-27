@@ -10,7 +10,7 @@ export function createTodo(todo) {
         dueDate: todo.dueDate,
         priority: todo.priority,
         isComplete: false,
-        project: "default",
+        project: todo.project ?? "default",
         notes: "",
     };
     todos.push(newTodo);

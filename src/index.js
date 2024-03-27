@@ -168,8 +168,7 @@ document.querySelector("#create-todo-form").addEventListener("submit", (e) => {
 
     const newTodo = {
         title: formData.get("title"),
-        dueDate: formData.get("dueDate"),
-        priority: formData.get("priority"),
+        project: selectedProject,
     };
 
     Todo.createTodo(newTodo);
