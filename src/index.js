@@ -1,8 +1,10 @@
 import "./style.css";
 import * as Todo from "./todo.js";
 
-function renderTodos(project = "default") {
-    const todos = Todo.getTodosByProject(project);
+let selectedProject = 'default';
+
+function renderTodos() {
+    const todos = Todo.getTodosByProject(selectedProject);
     const todoList = document.querySelector("#todo-list");
     todoList.innerHTML = "";
 
@@ -133,7 +135,10 @@ function populateProjectList() {
 
         const viewButton = document.createElement("button");
         viewButton.textContent = project;
-        viewButton.onclick = renderTodos.bind(this, project);
+        viewButton.onclick = () => { 
+            selectedProject = project;
+            renderTodos(); 
+        };
         projectListItem.appendChild(viewButton);
 
         projectList.appendChild(projectListItem);
