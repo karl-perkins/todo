@@ -68,7 +68,7 @@ function editTodo(id) {
         <div class="form-control">
             <label for="edit-project">Project</label>
             <select name="project" id="edit-project">
-                ${Todo.projects.reduce(
+                ${Todo.getProjects().reduce(
                     (html, project) =>
                         (html +=
                             project === updateTodo.project
@@ -148,7 +148,7 @@ function renderProjects() {
 
     projectList.innerHTML = "";
 
-    for (const project of Todo.projects) {
+    for (const project of Todo.getProjects()) {
         const projectListItem = document.createElement("div");
         projectListItem.classList.add("project-list-item");
 
@@ -165,6 +165,8 @@ function renderProjects() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    Todo.initaliseLocalStorage();
+    renderTodos();
     renderProjects();
 });
 
